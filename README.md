@@ -1,5 +1,5 @@
 # Red-Black-Tree-Visualizer
-The GUI is made using Java swing and uses custom buttons and text fields for user input .<br/>
+The GUI is made using Java swing,contains custom buttons and text fields for user input .<br/>
 Nodes are drawn level by level to maintain balanced shape and distance using Breadth-First Search Algorithm.
 
 # Features
