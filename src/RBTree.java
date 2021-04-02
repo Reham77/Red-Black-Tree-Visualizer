@@ -59,7 +59,7 @@ class RBTree {
         return insert(root, x);
     }
 
-    boolean consecutiveRedNode2s(Node node) {
+    boolean consecutiveRedNodes(Node node) {
         return node.parent != null && (node.parent.color == RED);
     }
 
@@ -183,7 +183,7 @@ class RBTree {
             node.color = BLACK;
             return;
         }
-        while (node != null && consecutiveRedNode2s(node)) {
+        while (node != null && consecutiveRedNodes(node)) {
             if (uncleIsRed(node)) {
                 changeColorInsertion(node);
             } else {
