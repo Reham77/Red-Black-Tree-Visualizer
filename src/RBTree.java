@@ -99,7 +99,7 @@ class RBTree {
     void rightRotate(Node node) {
         Node temp = node.left;
 
-        //conectTwoNode2s
+        //connectTwoNode2s
         temp.parent = node.parent;
 
         if (isRoot(node))
@@ -122,7 +122,7 @@ class RBTree {
     void LeftRotate(Node node) {
         Node temp = node.right;
 
-        //conectTwoNode2s
+        //conectTwoNodes
         temp.parent = node.parent;
 
         if (isRoot(node))
@@ -176,7 +176,7 @@ class RBTree {
         root.color = BLACK;
     }
 
-    //function to insert and fix node2s at insertion
+    //function to insert and fix nodes at insertion
     void finalInsertion(int x) {
         Node node = insert(x);
         if (isRoot(node)) {
@@ -194,11 +194,10 @@ class RBTree {
         }
     }
 
-    //check if the given node2 is a leaf node2
+    //check if the given node is a leaf node
     boolean isLeaf(Node node) {
         return (node.left == null && node.right == null);
     }
-
 
     Node getSuccessor(Node node) {
         Node curr = node.right;
@@ -208,7 +207,7 @@ class RBTree {
         return curr;
     }
 
-    Node getPredeccessor(Node node) {
+    Node getPredecessor(Node node) {
         Node curr = node.left;
         while (curr.right != null) {
             curr = curr.right;
@@ -230,7 +229,7 @@ class RBTree {
         return (node == null || node.color == BLACK);
     }
 
-    Node getSibiling(Node node) {
+    Node getSibling(Node node) {
         if (isRoot(node))
             return root;
         if (isLeftChild(node)) {
@@ -242,7 +241,7 @@ class RBTree {
     Node swaping(Node node) {
         Node pre = null;
         while (!isLeaf(node)) {
-            if (node.left != null && node.right != null) pre = getPredeccessor(node); //has two childreen
+            if (node.left != null && node.right != null) pre = getPredecessor(node); //has two childreen
 
             else if (node.left != null) {
                 pre = node.left;
@@ -262,7 +261,7 @@ class RBTree {
         return node;
     }
 
-    void deleteNode2(Node ToBeDeleted) {
+    void deleteNode(Node ToBeDeleted) {
         if (isLeftChild(ToBeDeleted))
             ToBeDeleted.parent.left = null;
         else ToBeDeleted.parent.right = null;
@@ -275,16 +274,15 @@ class RBTree {
             return;
         }
 
-        Node sibiling = getSibiling(ToBeDeleted);
-        if (IsBlack(sibiling)) {
+        Node sibling = getSibling(ToBeDeleted);
+        if (IsBlack(sibling)) {
 
-
-            if (IsBlack(sibiling.left) && IsBlack(sibiling.right)) {
+            if (IsBlack(sibling.left) && IsBlack(sibling.right)) {
 
                 ToBeDeleted.color = BLACK;
 
-                if (sibiling != null)
-                    sibiling.color = RED;
+                if (sibling != null)
+                    sibling.color = RED;
 
                 //if the parent is red then just swap colors
                 if (!IsBlack(ToBeDeleted.parent)) {
@@ -296,33 +294,33 @@ class RBTree {
                 }
                 FixDoubleBlack(ToBeDeleted.parent);
             } else {
-                if (!isLeftChild(sibiling)) {
+                if (!isLeftChild(sibling)) {
 
                     //if far child is red (RR case )
-                    if (!IsBlack(sibiling.right)) {
-                        sibiling.right.color = sibiling.color;
-                        sibiling.color = sibiling.parent.color;
+                    if (!IsBlack(sibling.right)) {
+                        sibling.right.color = sibling.color;
+                        sibling.color = sibling.parent.color;
                         LeftRotate(ToBeDeleted.parent);
                     } else {
                         //if far child is black
                         //RL Case
-                        sibiling.left.color = sibiling.parent.color;
-                        rightRotate(sibiling);
+                        sibling.left.color = sibling.parent.color;
+                        rightRotate(sibling);
                         LeftRotate(ToBeDeleted.parent);
                     }
                 } else {
-                    // if sibiling is on the left side
-                    // if sibiling left child is red (LL case) (far child)
-                    if (!IsBlack(sibiling.left)) {
+                    // if sibling is on the left side
+                    // if sibling left child is red (LL case) (far child)
+                    if (!IsBlack(sibling.left)) {
 
-                        sibiling.left.color = sibiling.color;
-                        sibiling.color = sibiling.parent.color;
+                        sibling.left.color = sibling.color;
+                        sibling.color = sibling.parent.color;
                         rightRotate(ToBeDeleted.parent);
 
                     } else {
                         //LR Case
-                        sibiling.right.color = sibiling.parent.color;
-                        LeftRotate(sibiling);
+                        sibling.right.color = sibling.parent.color;
+                        LeftRotate(sibling);
                         rightRotate(ToBeDeleted.parent);
                     }
                 }
@@ -330,9 +328,9 @@ class RBTree {
             ToBeDeleted.parent.color = BLACK;
         } else {
 
-            //sibiling is red
+            //sibling is red
             ToBeDeleted.parent.color = RED;
-            sibiling.color = BLACK;
+            sibling.color = BLACK;
 
             if (isLeftChild(ToBeDeleted)) {
                 LeftRotate(ToBeDeleted.parent);
@@ -344,9 +342,9 @@ class RBTree {
     }
 
     void Delete(int x) {
-        //search to get the node2
+        //search to get the node
         Node temp = Search(x);
-        //then  keep swaping with the successor or predessccor
+        //then  keep swaping with the successor or predecessor
         Node ToBeDeleted = swaping(temp);
 
         if (isRoot(ToBeDeleted)) {
@@ -354,11 +352,11 @@ class RBTree {
             return;
         }
         if (ToBeDeleted.color == RED) {
-            deleteNode2(ToBeDeleted);
+            deleteNode(ToBeDeleted);
         } else {
             ToBeDeleted.color = DOUBLEBLAK;
             FixDoubleBlack(ToBeDeleted);
-            deleteNode2(ToBeDeleted);
+            deleteNode(ToBeDeleted);
         }
     }
 
